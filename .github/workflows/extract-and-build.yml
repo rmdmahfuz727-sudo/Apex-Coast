@@ -1,0 +1,54 @@
+
+name: Extract Apex Coast and Build APK
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Extract project ZIP
+        run: |
+          mkdir extracted
+          unzip -q apex-coast-repo-1.zip -d extracted
+          echo "Extracted project files:"
+          find extracted -maxdepth 3 -type f | head -100
+
+      - name: Locate Android project
+        id: locate
+        run: |
+          WRAPPER=$(find extracted -type f -name gradlew | head -1)
+          if [ -z "$WRAPPER" ]; then
+            echo "No Gradle wrapper found in the ZIP."
+            echo "Inspect the extracted file list above."
+            exit 1
+          fi
+          echo "dir=$(dirname "$WRAPPER")" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Build debug APK
+        working-directory: ${{ steps.locate.outputs.dir }}
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Apex-Coast-APK
+          path: |
+            extracted/**/build/outputs/apk/**/*.apk
+          if-no-files-found: error
+          
