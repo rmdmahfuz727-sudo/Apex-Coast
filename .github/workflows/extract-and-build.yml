@@ -17,7 +17,7 @@ jobs:
       - name: Extract project ZIP
         run: |
           mkdir extracted
-          unzip -q Apex-Coast-0.4.0-source.zip -d extracted
+          unzip -q Apex-Coast-0.6.0-source.zip -d extracted
           echo "Extracted project files:"
           find extracted -maxdepth 3 -type f | head -100
 
