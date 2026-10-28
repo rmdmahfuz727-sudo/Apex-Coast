@@ -16,16 +16,23 @@ jobs:
 
       
       
+      
       - name: Extract project ZIP
         run: |
+          set -eu
           ZIP_FILE="Apex-Coast-0.12.0-source.zip"
-          if [ ! -f "$ZIP_FILE" ]; then
-            echo "ZIP file not found in repository root"
-            ls -la
+          echo "Current directory: $(pwd)"
+          echo "Looking for: $ZIP_FILE"
+          ls -la
+          test -f "$ZIP_FILE" || {
+            echo "ERROR: Expected ZIP is missing"
             exit 1
-          fi
+          }
+          unzip -t "$ZIP_FILE"
           mkdir -p extracted
-          unzip -q "$ZIP_FILE" -d extracted
+          unzip -oq "$ZIP_FILE" -d extracted
+          echo "ZIP extracted successfully"
+
 
 
 
