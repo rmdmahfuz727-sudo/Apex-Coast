@@ -18,7 +18,7 @@ jobs:
       
       - name: Extract project ZIP
         run: |
-          ZIP_FILE="Apex-Coast-v0.12.0-download.zip"
+          ZIP_FILE="Apex-Coast-0.12.0-source.zip"
           if [ ! -f "$ZIP_FILE" ]; then
             echo "ZIP file not found in repository root"
             ls -la
