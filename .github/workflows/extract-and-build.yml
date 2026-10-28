@@ -20,7 +20,7 @@ jobs:
       - name: Extract project ZIP
         run: |
           set -eu
-          ZIP_FILE="Apex-Coast-0.16.0-Showroom-Upgrade-source.zip"
+          ZIP_FILE="Apex-Coast-0_17_0-source.zip"
           echo "Current directory: $(pwd)"
           echo "Looking for: $ZIP_FILE"
           ls -la
